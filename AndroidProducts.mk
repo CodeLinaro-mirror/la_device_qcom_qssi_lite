@@ -1,5 +1,5 @@
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/qssi.mk
+	$(LOCAL_DIR)/qssi_lite.mk
 
 COMMON_LUNCH_CHOICES := \
-        qssi-userdebug
+        qssi_lite-userdebug

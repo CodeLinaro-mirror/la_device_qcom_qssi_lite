@@ -116,6 +116,17 @@ TARGET_LUNCH_FLAVOR := lite
 
 PRODUCT_EXTRA_VNDK_VERSIONS := 30
 
+##########
+# QSPA flags start
+##########
+
+#QSPA global flag for modular architecture
+#true means QSPA is enabled for system
+#false means QSPA is disabled for system
+TARGET_USES_QSPA := true
+
+# QSPA flags ends
+
 #Initial bringup flags
 TARGET_USES_AOSP := false
 TARGET_USES_AOSP_FOR_AUDIO := false

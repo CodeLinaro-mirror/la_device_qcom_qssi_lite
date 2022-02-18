@@ -3,6 +3,7 @@
 ALLOW_MISSING_DEPENDENCIES=true
 TARGET_BOARD_PLATFORM := qssi
 TARGET_BOOTLOADER_BOARD_NAME := qssi
+TARGET_BOARD_SUFFIX := _lite
 
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false

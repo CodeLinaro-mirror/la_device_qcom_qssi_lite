@@ -36,6 +36,9 @@ TARGET_SKIP_OTA_PACKAGE := true
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 
+# Disable  scudo allocation
+PRODUCT_DISABLE_SCUDO := true
+
 #### Dynamic Partition Handling
 
 ####

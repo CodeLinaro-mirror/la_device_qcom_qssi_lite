@@ -86,6 +86,9 @@ BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 #Enable PD locater/notifier
 TARGET_PD_SERVICE_ENABLED := true
 
+# Disable Telephony for neo targets
+TARGET_NO_TELEPHONY := true
+
 #Enable peripheral manager
 TARGET_PER_MGR_ENABLED := true
 
@@ -100,6 +103,9 @@ ifeq ($(HOST_OS),linux)
       endif
     endif
 endif
+
+# Enable svelte allocation
+MALLOC_SVELTE := true
 
 # Enable sensor multi HAL
 USE_SENSOR_MULTI_HAL := true

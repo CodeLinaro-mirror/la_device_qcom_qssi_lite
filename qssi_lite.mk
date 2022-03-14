@@ -3,6 +3,7 @@
 ALLOW_MISSING_DEPENDENCIES=true
 TARGET_BOARD_PLATFORM := qssi
 TARGET_BOOTLOADER_BOARD_NAME := qssi
+TARGET_BOARD_SUFFIX := _lite
 
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
@@ -34,6 +35,9 @@ TARGET_SKIP_OTA_PACKAGE := true
 
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
+
+# Disable  scudo allocation
+PRODUCT_DISABLE_SCUDO := true
 
 #### Dynamic Partition Handling
 
@@ -112,7 +116,6 @@ PRODUCT_NAME := $(VENDOR_QTI_DEVICE)
 PRODUCT_DEVICE := $(VENDOR_QTI_DEVICE)
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := qssi system image for arm64
-TARGET_LUNCH_FLAVOR := lite
 
 PRODUCT_EXTRA_VNDK_VERSIONS := 30
 

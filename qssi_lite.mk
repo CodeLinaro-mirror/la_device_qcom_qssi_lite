@@ -128,6 +128,9 @@ PRODUCT_EXTRA_VNDK_VERSIONS := 30
 #false means QSPA is disabled for system
 TARGET_USES_QSPA := true
 
+#QSPA tech team flag to configure global QSPA per tech team
+TARGET_USES_QSPA_CONFIG_TELEPHONY := false
+
 # QSPA flags ends
 
 #Initial bringup flags

@@ -86,8 +86,12 @@ BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 #Enable PD locater/notifier
 TARGET_PD_SERVICE_ENABLED := true
 
-# Disable Telephony for neo targets
-TARGET_NO_TELEPHONY := true
+# Disable Telephony for qssi_lite targets
+ifeq ($(TARGET_USES_QSPA),true)
+    ifeq ($(TARGET_USES_QSPA_CONFIG_TELEPHONY),false)
+      TARGET_NO_TELEPHONY := true
+    endif
+endif
 
 #Enable peripheral manager
 TARGET_PER_MGR_ENABLED := true

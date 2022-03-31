@@ -301,6 +301,40 @@ ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
   PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
 endif
 
+##############################Go configs###########################################
+
+#TARGET_HAS_LOW_RAM := true
+
+# Enable DM file preopting to reduce first boot time
+PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
+
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
+
+DONT_UNCOMPRESS_PRIV_APPS_DEXS := true
+
+# Reduces GC frequency of foreground apps by 50%
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.foreground-heap-growth-multiplier=2.0
+
+# Disable per_app memcg
+PRODUCT_PROPERTY_OVERRIDES += ro.config.per_app_memcg=false
+
+# Add Runtime Resource Overlay package
+PRODUCT_PACKAGES += \
+   FrameworksResTargetGo
+
+PRODUCT_PACKAGES += \
+     android.hardware.cas@1.2-service-lazy
+
+PRODUCT_PACKAGES += disable_configstore
+
+$(call inherit-product, build/target/product/go_defaults.mk)
+$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackageGo.mk)
+
+#########################End of Go configs########################################
+
+
+
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:

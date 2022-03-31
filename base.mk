@@ -691,7 +691,6 @@ PRODUCT_PACKAGES := \
     QuickSearchBox \
     Settings \
     Sync \
-    SystemUI \
     Updater \
     CalendarProvider \
     SyncProvider \
@@ -703,8 +702,17 @@ PRODUCT_PACKAGES := \
     QesdkSysService \
     libqesdk_ndk_platform.qti
 
+ifneq ($(TARGET_USES_QSPA),true)
+PRODUCT_PACKAGES += \
+    SystemUI
+endif
+
 ifeq ($(TARGET_HAS_LOW_RAM),true)
+  ifeq ($(TARGET_USES_QSPA),true)
+    DELAUN := HeadlessLauncher
+  else
     DELAUN := Launcher3Go
+  endif
 else
     # Live Wallpapers
     PRODUCT_PACKAGES += \
@@ -712,7 +720,11 @@ else
             LiveWallpapersPicker \
             VisualizationWallpapers
 
-    DELAUN := Launcher3
+    ifeq ($(TARGET_USES_QSPA),true)
+      DELAUN := HeadlessLauncher
+    else
+      DELAUN := Launcher3
+    endif
 endif
 
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)

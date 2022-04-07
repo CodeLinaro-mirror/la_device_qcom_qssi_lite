@@ -699,12 +699,12 @@ PRODUCT_PACKAGES := \
     SnapdragonGallery \
     VideoEditor \
     SnapdragonLauncher \
-    QesdkSysService \
     libqesdk_ndk_platform.qti
 
 ifneq ($(TARGET_USES_QSPA),true)
 PRODUCT_PACKAGES += \
-    SystemUI
+    SystemUI \
+    QesdkSysService
 endif
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)

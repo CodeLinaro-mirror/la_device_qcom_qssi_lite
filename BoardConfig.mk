@@ -29,7 +29,7 @@ TARGET_NO_KERNEL := true
 # Disable DLKMs compilation for lunch qssi builds.
 TARGET_KERNEL_DLKM_DISABLE := true
 
--include $(QCPATH)/common/msmnile/BoardConfigVendor.mk
+-include $(QCPATH)/common/neo/BoardConfigVendor.mk
 
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true

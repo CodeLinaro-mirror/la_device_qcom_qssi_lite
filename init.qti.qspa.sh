@@ -37,4 +37,5 @@ soc_id=`cat /sys/devices/soc0/soc_id` 2> /dev/null
 
 if [ "$soc_id" -eq 554 ]; then
     setprop ro.vendor.config.qspa.apps true
+    setprop ro.vendor.config.qspa.iorapd false
 fi

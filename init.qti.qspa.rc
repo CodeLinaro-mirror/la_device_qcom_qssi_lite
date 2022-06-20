@@ -40,3 +40,6 @@ service vendor_qspa /system_ext/bin/init.qti.qspa.sh
 
 on early-init
     start vendor_qspa
+
+on fs
+    setprop persist.device_config.runtime_native_boot.iorap_perfetto_enable ${ro.vendor.config.qspa.iorapd}

@@ -699,20 +699,17 @@ PRODUCT_PACKAGES := \
     SnapdragonGallery \
     VideoEditor \
     SnapdragonLauncher \
+    SystemUI \
+    HeadlessLauncher \
     libqesdk_ndk_platform.qti
 
 ifneq ($(TARGET_USES_QSPA),true)
 PRODUCT_PACKAGES += \
-    SystemUI \
     QesdkSysService
 endif
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
-  ifeq ($(TARGET_USES_QSPA),true)
-    DELAUN := HeadlessLauncher
-  else
     DELAUN := Launcher3Go
-  endif
 else
     # Live Wallpapers
     PRODUCT_PACKAGES += \
@@ -720,11 +717,7 @@ else
             LiveWallpapersPicker \
             VisualizationWallpapers
 
-    ifeq ($(TARGET_USES_QSPA),true)
-      DELAUN := HeadlessLauncher
-    else
-      DELAUN := Launcher3
-    endif
+    DELAUN := Launcher3
 endif
 
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)

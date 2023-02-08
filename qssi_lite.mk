@@ -133,6 +133,9 @@ TARGET_USES_QSPA_CONFIG_TELEPHONY := false
 
 # QSPA flags ends
 
+# Disable Telephony for qssi_lite targets
+TARGET_NO_TELEPHONY := true
+
 #Initial bringup flags
 TARGET_USES_AOSP := false
 TARGET_USES_AOSP_FOR_AUDIO := false

@@ -709,7 +709,7 @@ PRODUCT_PACKAGES += \
 endif
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
-    DELAUN := Launcher3Go
+    DELAUN := Launcher3QuickStepGo
 else
     # Live Wallpapers
     PRODUCT_PACKAGES += \

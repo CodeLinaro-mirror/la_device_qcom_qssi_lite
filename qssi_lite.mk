@@ -45,7 +45,7 @@ PRODUCT_DISABLE_SCUDO := true
 
 # Retain the earlier default behavior i.e. ota config (dynamic partition was disabled if not set explicitly), so set
 # SHIPPING_API_LEVEL to 28 if it was not set earlier (this is generally set earlier via build.sh per-target)
-SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 36
 
 $(call inherit-product-if-exists, vendor/qcom/defs/product-defs/system/cne_url*.mk)
 
@@ -117,7 +117,7 @@ PRODUCT_DEVICE := $(VENDOR_QTI_DEVICE)
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := qssi system image for arm64
 
-PRODUCT_EXTRA_VNDK_VERSIONS := 30 31 32 33
+PRODUCT_EXTRA_VNDK_VERSIONS := 30 31 32 33 34
 
 ##########
 # QSPA flags start

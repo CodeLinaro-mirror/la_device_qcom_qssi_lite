@@ -146,6 +146,12 @@ TARGET_USES_RRO := true
 
 TARGET_USES_NQ_NFC := true
 
+# TODO(b/330696629) remove this once device can drop HIDL.
+# This adds hwservicemanager and the allocator service to the device.
+PRODUCT_PACKAGES += \
+     hwservicemanager \
+     android.hidl.allocator@1.0-service
+
 #qspa script to set the runtime flag
 PRODUCT_PACKAGES += init.qti.qspa.sh
 

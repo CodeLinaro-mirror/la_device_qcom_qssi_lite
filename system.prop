@@ -95,7 +95,7 @@ persist.sys.wfd.virtual=0
 
 
 #property to enable HWC for VDS
-debug.sf.enable_hwc_vds=1
+debug.sf.enable_hwc_vds=0
 
 #property to latch unsignaled buffer
 debug.sf.latch_unsignaled=1
@@ -127,6 +127,7 @@ ro.hwui.text_small_cache_width=1024
 ro.hwui.text_small_cache_height=1024
 ro.hwui.text_large_cache_width=2048
 ro.hwui.text_large_cache_height=1024
+debug.hwui.skia_atrace_enabled=false
 
 config.disable_rtt=true
 
@@ -167,6 +168,3 @@ arm64.memtag.process.system_server=off
 
 # Disable blur on app launch
 ro.launcher.blur.appLaunch=0
-
-# QSPA flag
-ro.config.qspa = 1

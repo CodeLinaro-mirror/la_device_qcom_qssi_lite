@@ -29,7 +29,7 @@ TARGET_NO_KERNEL := true
 # Disable DLKMs compilation for lunch qssi builds.
 TARGET_KERNEL_DLKM_DISABLE := true
 
--include $(QCPATH)/common/neo/BoardConfigVendor.mk
+-include $(QCPATH)/common/msmnile/BoardConfigVendor.mk
 
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
@@ -86,12 +86,8 @@ BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 #Enable PD locater/notifier
 TARGET_PD_SERVICE_ENABLED := true
 
-# Disable Telephony for qssi_lite targets
-ifeq ($(TARGET_USES_QSPA),true)
-    ifeq ($(TARGET_USES_QSPA_CONFIG_TELEPHONY),false)
-      TARGET_NO_TELEPHONY := true
-    endif
-endif
+# Disable Telephony for xr targets
+TARGET_NO_TELEPHONY := true
 
 #Enable peripheral manager
 TARGET_PER_MGR_ENABLED := true
@@ -131,7 +127,6 @@ BUILD_BROKEN_NINJA_USES_ENV_VARS := SDCLANG_AE_CONFIG SDCLANG_CONFIG SDCLANG_CON
 BUILD_BROKEN_NINJA_USES_ENV_VARS += TEMPORARY_DISABLE_PATH_RESTRICTIONS
 BUILD_BROKEN_USES_BUILD_HOST_SHARED_LIBRARY := true
 BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
-BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 
 #Enable VNDK Compliance

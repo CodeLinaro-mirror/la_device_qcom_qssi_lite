@@ -39,12 +39,12 @@ include $(BUILD_PREBUILT)
 
 # QSPA init script
 include $(CLEAR_VARS)
-LOCAL_MODULE := init.qti.qspa.sh
+LOCAL_MODULE := init.qti.qspa_apps.sh
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_SRC_FILES := init.qti.qspa.sh
+LOCAL_SRC_FILES := init.qti.qspa_apps.sh
 LOCAL_MODULE_PATH  := $(TARGET_OUT_SYSTEM_EXT_EXECUTABLES)
-LOCAL_INIT_RC := init.qti.qspa.rc
+LOCAL_INIT_RC := init.qti.qspa_apps.rc
 include $(BUILD_PREBUILT)
 
 # Build the buildtools.zip package.

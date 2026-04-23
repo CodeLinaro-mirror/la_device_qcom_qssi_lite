@@ -1,9 +1,14 @@
-#For QSSI, we build only the system image. Here we explicitly set the images
+#For QSSI_64, we build only the system image. Here we explicitly set the images
 #we build so there is no confusion.
-ALLOW_MISSING_DEPENDENCIES=true
+
 TARGET_BOARD_PLATFORM := qssi
-TARGET_BOOTLOADER_BOARD_NAME := qssi
 TARGET_BOARD_SUFFIX := _lite
+TARGET_BOOTLOADER_BOARD_NAME := qssi_lite
+
+# Opt out of 16K alignment changes
+PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 4096
+
+TARGET_DEFINES_XR_CONFIGURATION := true
 
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
@@ -13,6 +18,7 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_PRODUCT_VNDK_VERSION := current
 
 RELAX_USES_LIBRARY_CHECK := true
+#NEED_AIDL_NDK_PLATFORM_BACKEND := true
 
 #Enable product partition Java I/F. It is automatically set to true if
 #the shipping API level for the target is greater than 29
@@ -70,7 +76,7 @@ PRODUCT_BUILD_PRODUCT_IMAGE := false
 else
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 # Disable building the SUPER partition in this build. SUPER should be built
-# after QSSI has been merged with the SoC build.
+# after qssi_lite has been merged with the SoC build.
 PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
 PRODUCT_BUILD_PRODUCT_IMAGE := true
 PRODUCT_BUILD_SUPER_PARTITION := false
@@ -83,16 +89,18 @@ BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 endif
 #### Dynamic Partition Handling
 
+PRODUCT_PRODUCT_PROPERTIES += \
+    remote_provisioning.enable_rkpd=true \
+    remote_provisioning.hostname=remoteprovisioning.googleapis.com \
+
 PRODUCT_SOONG_NAMESPACES += \
-    frameworks/base/boot \
-    cts/tests/signature/api-check \
     hardware/google/av \
     hardware/google/interfaces
 
 VENDOR_QTI_PLATFORM := qssi_lite
 VENDOR_QTI_DEVICE := qssi_lite
 
-#QSSI configuration
+#QSSI 64 bit configuration
 #Single system image project structure
 TARGET_USES_QSSI := true
 
@@ -101,6 +109,7 @@ TARGET_USES_NEW_ION := true
 ENABLE_AB ?= true
 
 TARGET_DEFINES_DALVIK_HEAP := true
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, device/qcom/qssi_lite/common64.mk)
 
 #Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
@@ -119,23 +128,6 @@ PRODUCT_MODEL := qssi system image for arm64
 
 PRODUCT_EXTRA_VNDK_VERSIONS := 30 31 32 33 34
 
-##########
-# QSPA flags start
-##########
-
-#QSPA global flag for modular architecture
-#true means QSPA is enabled for system
-#false means QSPA is disabled for system
-TARGET_USES_QSPA := true
-
-#QSPA tech team flag to configure global QSPA per tech team
-TARGET_USES_QSPA_CONFIG_TELEPHONY := false
-
-# QSPA flags ends
-
-# Disable Telephony for qssi_lite targets
-TARGET_NO_TELEPHONY := true
-
 #Initial bringup flags
 TARGET_USES_AOSP := false
 TARGET_USES_AOSP_FOR_AUDIO := false
@@ -146,21 +138,23 @@ TARGET_USES_RRO := true
 
 TARGET_USES_NQ_NFC := true
 
-# TODO(b/330696629) remove this once device can drop HIDL.
-# This adds hwservicemanager and the allocator service to the device.
-PRODUCT_PACKAGES += \
-     hwservicemanager \
-     android.hidl.allocator@1.0-service
-
 #qspa script to set the runtime flag
-PRODUCT_PACKAGES += init.qti.qspa.sh
+PRODUCT_PACKAGES += init.qti.qspa_apps.sh
 
 # default is nosdcard, S/W button enabled in resource
 PRODUCT_CHARACTERISTICS := nosdcard
 BOARD_FRP_PARTITION_NAME := frp
 
+# TODO(b/330696629) remove this once device can drop HIDL.
+# This adds hwservicemanager and the allocator service to the device.
+PRODUCT_PACKAGES += \
+    hwservicemanager \
+    android.hidl.allocator@1.0-service
+
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
+PRODUCT_PACKAGES += fsck.exfat
+PRODUCT_PACKAGES += mkfs.exfat
 
 PRODUCT_BOOT_JARS += tcmiface
 PRODUCT_BOOT_JARS += telephony-ext
@@ -287,6 +281,9 @@ PRODUCT_PACKAGES += vndk_package
 
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE:=true
 
+#disable installation of gms packages
+TARGET_NO_GMS_PACKAGES := false
+TARGET_IS_AR_GLASSES := true
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
@@ -304,16 +301,9 @@ else
 AUDIO_FEATURE_ENABLED_DLKM := false
 endif
 
-ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-endif
-
-# Include mainline components and QSSI whitelist
-ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
-  $(call inherit-product, device/qcom/qssi_lite/qssi_whitelist.mk)
-  PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
-  PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
-endif
+# Enable virtual A/B compression
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 
 ##############################Go configs###########################################
 
@@ -346,8 +336,15 @@ $(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackageGo.mk)
 
 #########################End of Go configs########################################
 
+# Include mainline components and qssi_lite whitelist
+ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
+  $(call inherit-product, device/qcom/qssi_lite/qssi_whitelist.mk)
+  PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+  PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
+endif
 
-
+# Enable support for APEX updates
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 ###################################################################################
 # This is the End of target.mk file.

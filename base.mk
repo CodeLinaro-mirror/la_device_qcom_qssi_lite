@@ -521,11 +521,6 @@ MEDIA_PROFILES := media_profiles.xml
 MM_CORE := libmm-omxcore
 MM_CORE += libOmxCore
 
-#WFD
-MM_WFD := libwfdaac
-MM_WFD := libwfdaac_vendor
-
-
 #MM_VIDEO
 MM_VIDEO := ast-mm-vdec-omx-test
 MM_VIDEO += beat
@@ -637,7 +632,7 @@ WPA += hs20-osu-client
 #ZLIB
 ZLIB := gzip
 ZLIB += libunz
-ZLIB_HOST := minigzip
+#ZLIB_HOST := minigzip
 
 #Charger
 CHARGER := charger
@@ -691,6 +686,7 @@ PRODUCT_PACKAGES := \
     QuickSearchBox \
     Settings \
     Sync \
+    SystemUI \
     Updater \
     CalendarProvider \
     SyncProvider \
@@ -699,14 +695,7 @@ PRODUCT_PACKAGES := \
     SnapdragonGallery \
     VideoEditor \
     SnapdragonLauncher \
-    SystemUI \
-    HeadlessLauncher \
-    libqesdk_ndk_platform.qti
-
-ifneq ($(TARGET_USES_QSPA),true)
-PRODUCT_PACKAGES += \
-    QesdkSysService
-endif
+    HeadlessLauncher
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
     DELAUN := Launcher3QuickStepGo
@@ -774,7 +763,6 @@ PRODUCT_PACKAGES += $(LIBPOWER)
 PRODUCT_PACKAGES += $(LOC_API)
 PRODUCT_PACKAGES += $(MEDIA_PROFILES)
 PRODUCT_PACKAGES += $(MM_CORE)
-PRODUCT_PACKAGES += $(MM_WFD)
 PRODUCT_PACKAGES += $(MM_VIDEO)
 PRODUCT_PACKAGES += $(OPENCORE)
 PRODUCT_PACKAGES += $(PPP)
@@ -791,7 +779,7 @@ PRODUCT_PACKAGES += $(QRGND)
 PRODUCT_PACKAGES += $(UPDATER)
 PRODUCT_PACKAGES += $(WPA)
 PRODUCT_PACKAGES += $(ZLIB)
-PRODUCT_HOST_PACKAGES += $(ZLIB_HOST)
+#PRODUCT_HOST_PACKAGES += $(ZLIB_HOST)
 PRODUCT_PACKAGES += $(VT_JNI)
 PRODUCT_PACKAGES += $(VT_QTI_PERMISSIONS)
 PRODUCT_PACKAGES += $(CRDA)
@@ -823,6 +811,9 @@ PRODUCT_PACKAGES += libhealthd.msm
 #Add init.qcom.test.rc to PRODUCT_PACKAGES_DEBUG list
 PRODUCT_PACKAGES_DEBUG += init.qcom.test.rc
 PRODUCT_PACKAGES_DEBUG += init.qcom.debug.sh
+
+#enable qesdk commandline tool in debug mode
+PRODUCT_PACKAGES_DEBUG += qesdkcmdline
 
 #NANOPB_LIBRARY_NAME := libnanopb-c-2.8.0
 
@@ -867,7 +858,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     vndk-sp \
 
-TARGET_FS_CONFIG_GEN := device/qcom/qssi/config.fs
+TARGET_FS_CONFIG_GEN := device/qcom/qssi_lite/config.fs
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
     PRODUCT_PROPERTY_OVERRIDES += \
@@ -907,6 +898,9 @@ PRODUCT_PACKAGES += libvndfwk_detect_jni.qti_vendor
 
 #add thermal 2.0 hal lib to product packages
 PRODUCT_PACKAGES += android.hardware.thermal@2.0
+
+#add RemoteProvisioner to product packages
+PRODUCT_PACKAGES += RemoteProvisioner
 
 #soong namespace for qssi vs vendor differentiation
 SOONG_CONFIG_NAMESPACES += qssi_vs_vendor

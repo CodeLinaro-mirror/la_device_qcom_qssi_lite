@@ -343,6 +343,10 @@ ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
   PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
 endif
 
+# b/344511668
+PRODUCT_PACKAGES += \
+    android.software.credentials.prebuilt.xml
+
 # Enable support for APEX updates
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 

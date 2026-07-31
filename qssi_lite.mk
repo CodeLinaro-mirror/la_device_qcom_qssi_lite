@@ -92,6 +92,9 @@ PRODUCT_SOONG_NAMESPACES += \
 VENDOR_QTI_PLATFORM := qssi_lite
 VENDOR_QTI_DEVICE := qssi_lite
 
+# Enable support for APEX updates
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
 #QSSI configuration
 #Single system image project structure
 TARGET_USES_QSSI := true

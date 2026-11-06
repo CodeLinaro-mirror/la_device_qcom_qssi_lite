@@ -226,6 +226,7 @@ PRODUCT_PACKAGES += camera.device@1.0-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
 # Enable binderized camera HAL
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service_64
+PRODUCT_PACKAGES += Camera2
 
 
 # Context hub HAL
